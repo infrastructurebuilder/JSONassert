@@ -8,7 +8,10 @@
         <version>7</version>
     </parent>
 
+    <groupId>org.infrastructurebuilder.usurped</groupId>
+<!--
     <groupId>org.skyscreamer</groupId>
+-->
     <artifactId>jsonassert</artifactId>
     <version>1.5.1-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -25,9 +28,15 @@
         </license>
     </licenses>
     <scm>
+<!--
         <connection>scm:git:git@github.com:skyscreamer/JSONassert.git</connection>
         <developerConnection>scm:git:git@github.com:skyscreamer/JSONassert.git</developerConnection>
         <url>git@github.com:skyscreamer/JSONassert.git</url>
+-->
+        <!-- Straight up usurped from skyscreamer due to modular collisions -->
+        <connection>scm:git:git@github.com:infrastructurebuilder/JSONassert.git</connection>
+        <developerConnection>scm:git:git@github.com:infrastructurebuilder/JSONassert.git</developerConnection>
+        <url>git@github.com:infrastructurebuilder/JSONassert.git</url>
     </scm>
     <developers>
         <developer>
@@ -46,43 +55,68 @@
             <email>solomon@skyscreamer.org</email>
         </developer>
     </developers>
-
+    <properties>
+        <json.version>20201115</json.version>
+        <junit.version>4.13.2</junit.version>
+        <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <cobertura.maven.plugin.version>2.5.1</cobertura.maven.plugin.version>
+    </properties>
     <!-- For JSONAssert -->
     <dependencies>
         <dependency>
-            <groupId>com.vaadin.external.google</groupId>
-            <artifactId>android-json</artifactId>
-            <version>0.0.20131108.vaadin1</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.1</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.version}</version>
+      </dependency>
+
     </dependencies>
 
     <build>
+        <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven.jar.plugin.version}</version>
+          <configuration>
+            <archive>
+              <manifestEntries>
+                <Multi-Release>true</Multi-Release>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+    </plugins>
+    </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.1</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
+        <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.plugin.version}</version>
+        <configuration>
+          <release>9</release>
+          <source>1.9</source>
+          <target>1.9</target>
+          <testSource>1.9</testSource>
+          <testTarget>1.9</testTarget>
+        </configuration>
+      </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.9.1</version>
                 <configuration>
                     <reportPlugins>
                         <plugin>
                             <groupId>org.codehaus.mojo</groupId>
                             <artifactId>cobertura-maven-plugin</artifactId>
-                            <version>2.5.1</version>
+                            <version>${cobertura.maven.plugin.version}</version>
                         </plugin>
                     </reportPlugins>
                 </configuration>
@@ -110,7 +144,7 @@
     <distributionManagement>
         <site>
             <id>github-project-site</id>
-            <url>gitsite:git@github.com/skyscreamer/JSONassert.git</url>
+            <url>gitsite:git@github.com/infrastructurebuilder/JSONassert.git</url>
         </site>
     </distributionManagement>
 

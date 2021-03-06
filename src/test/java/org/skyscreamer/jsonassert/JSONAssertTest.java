@@ -226,13 +226,13 @@ public class JSONAssertTest {
     public void testArrayOfArrays() throws JSONException {
         testPass("{id:1,stuff:[[4,3],[3,2],[],[1,2]]}", "{id:1,stuff:[[1,2],[2,3],[],[3,4]]}", LENIENT);
     }
-    
+
     @Test
     public void testLenientArrayRecursion() throws JSONException {
         testPass("[{\"arr\":[5, 2, 1]}]", "[{\"b\":3, \"arr\":[1, 5, 2]}]", LENIENT);
     }
-   
-    @Test 
+
+    @Test
     public void testFieldMismatch() throws JSONException {
         JSONCompareResult result = JSONCompare.compareJSON("{name:\"Pat\"}", "{name:\"Sue\"}", STRICT);
         FieldComparisonFailure comparisonFailure = result.getFieldFailures().iterator().next();
@@ -361,7 +361,7 @@ public class JSONAssertTest {
         JSONAssert.assertNotEquals("[1,2,3]", "[1,3,2]", true);
         JSONAssert.assertNotEquals("[1,2,3]", "[1,2,4]", false);
     }
-    
+
     @Test()
     public void testAssertEqualsString() throws JSONException {
         JSONAssert.assertEquals("[1,2,3]", "[1,2,3]", true);
@@ -388,7 +388,7 @@ public class JSONAssertTest {
         JSONAssert.assertNotEquals(new JSONArray(Arrays.asList(1, 2, 4)), actual, false);
         JSONAssert.assertNotEquals(new JSONArray(Arrays.asList(1, 3, 2)), actual, true);
     }
-    
+
     @Test
     public void testAssertEqualsStringJSONArrayBooleanWithMessage() throws JSONException {
         JSONArray actual = new JSONArray(Arrays.asList(1, 2, 3));
@@ -396,7 +396,7 @@ public class JSONAssertTest {
         performAssertEqualsTestForMessageVerification("[1,2,4]", actual, false);
         performAssertEqualsTestForMessageVerification("[1,3,2]", actual, true);
     }
-    
+
     @Test
     public void testAssertEqualsStringJSONArrayCompareModeWithMessage() throws JSONException {
         JSONArray actual = new JSONArray(Arrays.asList(1, 2, 3));
@@ -412,34 +412,34 @@ public class JSONAssertTest {
         performAssertEqualsTestForMessageVerification(new JSONArray(Arrays.asList(1, 2, 4)), actual, false);
         performAssertEqualsTestForMessageVerification(new JSONArray(Arrays.asList(1, 3, 2)), actual, true);
     }
-    
+
     @Test
     public void testAssertEqualsJSONArray2JSONCompareWithMessage() throws JSONException {
         JSONArray actual = new JSONArray(Arrays.asList(1, 2, 3));
-        
+
         JSONAssert.assertEquals("Message", new JSONArray(Arrays.asList(1, 2, 3)), actual, LENIENT);
         performAssertEqualsTestForMessageVerification(new JSONArray(Arrays.asList(1, 2, 4)), actual, LENIENT);
         performAssertEqualsTestForMessageVerification(new JSONArray(Arrays.asList(1, 3, 2)), actual, STRICT);
     }
-    
+
     @Test
     public void testAssertEqualsString2Boolean() throws JSONException {
         JSONAssert.assertEquals("Message", "{id:12345}", "{id:12345}", false);
         JSONAssert.assertEquals("Message", "{id:12345}", "{id:12345, name:\"john\"}", false);
-        
+
         performAssertEqualsTestForMessageVerification("{id:12345}", "{id:12345, name:\"john\"}", true);
         performAssertEqualsTestForMessageVerification("{id:12345}", "{id:123456}", false);
     }
-    
+
     @Test
     public void testAssertEqualsString2JSONCompare() throws JSONException {
         JSONAssert.assertEquals("Message", "{id:12345}", "{id:12345}", LENIENT);
         JSONAssert.assertEquals("Message", "{id:12345}", "{id:12345, name:\"john\"}", LENIENT);
-        
+
         performAssertEqualsTestForMessageVerification("{id:12345}", "{id:12345, name:\"john\"}", STRICT);
         performAssertEqualsTestForMessageVerification("{id:12345}", "{id:123456}", LENIENT);
     }
-    
+
     @Test
     public void testAssertEqualsStringJSONObjectBoolean() throws JSONException {
         JSONObject actual = new JSONObject();
@@ -448,7 +448,7 @@ public class JSONAssertTest {
         performAssertEqualsTestForMessageVerification("{id:12346}", actual, false);
         performAssertEqualsTestForMessageVerification("[1,2,3]", "[1,3,2]", true);
     }
-    
+
     @Test
     public void testAssertEqualsStringJSONObjectJSONCompare() throws JSONException {
         JSONObject actual = new JSONObject();
@@ -457,7 +457,7 @@ public class JSONAssertTest {
         performAssertEqualsTestForMessageVerification("{id:12346}", actual, LENIENT);
         performAssertEqualsTestForMessageVerification("[1,2,3]", "[1,3,2]", STRICT);
     }
-    
+
     @Test
     public void testAssertEqualsJSONObject2JSONCompare() throws JSONException {
         JSONObject expected = new JSONObject();
@@ -466,17 +466,17 @@ public class JSONAssertTest {
         actual.put("name", "Joe");
         actual.put("id", Integer.valueOf(12345));
         JSONAssert.assertEquals("Message", expected, actual, LENIENT);
-        
+
         expected.put("street", "St. Paul");
         performAssertEqualsTestForMessageVerification(expected, actual, LENIENT);
-        
+
         expected = new JSONObject();
         actual = new JSONObject();
         expected.put("id", Integer.valueOf(12345));
         actual.put("id", Double.valueOf(12346));
         performAssertEqualsTestForMessageVerification(expected, actual, STRICT);
     }
-    
+
     @Test
     public void testAssertEqualsJSONObject2Boolean() throws JSONException {
         JSONObject expected = new JSONObject();
@@ -485,34 +485,35 @@ public class JSONAssertTest {
         actual.put("name", "Joe");
         actual.put("id", Integer.valueOf(12345));
         JSONAssert.assertEquals("Message", expected, actual, false);
-        
+
         expected.put("street", "St. Paul");
         performAssertEqualsTestForMessageVerification(expected, actual, false);
-        
+
         expected = new JSONObject();
         actual = new JSONObject();
         expected.put("id", Integer.valueOf(12345));
         actual.put("id", Double.valueOf(12346));
         performAssertEqualsTestForMessageVerification(expected, actual, true);
     }
-    
+
+    @org.junit.Ignore // Invalid test for org.json library (at least as of 20201115)
     @Test
     public void testAssertEqualsString2JsonComparator() throws IllegalArgumentException, JSONException {
-        JSONAssert.assertEquals("Message", "{\"entry\":{\"id\":x}}", "{\"entry\":{\"id\":1, \"id\":2}}", 
+        JSONAssert.assertEquals("Message", "{\"entry\":{\"id\":x}}", "{\"entry\":{\"id\":1, \"id\":2}}",
             new CustomComparator(
-                JSONCompareMode.STRICT, 
-                new Customization("entry.id", 
+                JSONCompareMode.STRICT,
+                new Customization("entry.id",
                 new RegularExpressionValueMatcher<Object>("\\d"))
          ));
-        
-        performAssertEqualsTestForMessageVerification("{\"entry\":{\"id\":x}}", "{\"entry\":{\"id\":1, \"id\":as}}", 
+
+        performAssertEqualsTestForMessageVerification("{\"entry\":{\"id\":x}}", "{\"entry\":{\"id\":1, \"id\":as}}",
             new CustomComparator(
-                JSONCompareMode.STRICT, 
-                new Customization("entry.id", 
+                JSONCompareMode.STRICT,
+                new Customization("entry.id",
                 new RegularExpressionValueMatcher<Object>("\\d"))
         ));
     }
-    
+
     @Test
     public void testAssertNotEqualsStringJSONArrayBooleanWithMessage() throws JSONException {
         JSONArray actual = new JSONArray(Arrays.asList(1, 2, 3));
@@ -521,7 +522,7 @@ public class JSONAssertTest {
         performAssertNotEqualsTestForMessageVerification("[1,3,2]", actual, false);
         performAssertNotEqualsTestForMessageVerification("[1,2,3]", actual, true);
     }
-    
+
     @Test
     public void testAssertNotEqualsStringJSONArrayCompareModeWithMessage() throws JSONException {
         JSONArray actual = new JSONArray(Arrays.asList(1, 2, 3));
@@ -530,7 +531,7 @@ public class JSONAssertTest {
         performAssertNotEqualsTestForMessageVerification("[1,3,2]", actual, LENIENT);
         performAssertNotEqualsTestForMessageVerification("[1,2,3]", actual, STRICT);
     }
-    
+
     @Test
     public void testAssertNotEqualsJSONArray2BooleanWithMessage() throws JSONException {
         JSONArray actual = new JSONArray(Arrays.asList(1, 2, 3));
@@ -538,34 +539,34 @@ public class JSONAssertTest {
         performAssertNotEqualsTestForMessageVerification(new JSONArray(Arrays.asList(1, 3, 2)), actual, false);
         performAssertNotEqualsTestForMessageVerification(new JSONArray(Arrays.asList(1, 2, 3)), actual, true);
     }
-    
+
     @Test
     public void testAssertNotEqualsJSONArray2JSONCompareWithMessage() throws JSONException {
         JSONArray actual = new JSONArray(Arrays.asList(1, 2, 3));
-        
+
         JSONAssert.assertNotEquals("Message", new JSONArray(Arrays.asList(1, 4, 3)), actual, LENIENT);
         performAssertNotEqualsTestForMessageVerification(new JSONArray(Arrays.asList(1, 3, 2)), actual, LENIENT);
         performAssertNotEqualsTestForMessageVerification(new JSONArray(Arrays.asList(1, 2, 3)), actual, STRICT);
     }
-    
+
     @Test
     public void testAssertNotEqualsString2Boolean() throws JSONException {
         JSONAssert.assertNotEquals("Message", "{id:12345}", "{id:45}", false);
         JSONAssert.assertNotEquals("Message", "{id:12345}", "{id:345, name:\"john\"}", false);
-        
+
         performAssertNotEqualsTestForMessageVerification("{id:12345}", "{id:12345}", true);
         performAssertNotEqualsTestForMessageVerification("{id:12345}", "{id:12345, name:\"John\"}", false);
     }
-    
+
     @Test
     public void testAssertNotEqualsString2JSONCompare() throws JSONException {
         JSONAssert.assertNotEquals("Message", "{id:12345}", "{id:123}", LENIENT);
         JSONAssert.assertNotEquals("Message", "{id:12345, name:\"John\"}", "{id:12345}", LENIENT);
-        
+
         performAssertNotEqualsTestForMessageVerification("{id:12345}", "{id:12345, name:\"john\"}", LENIENT);
         performAssertNotEqualsTestForMessageVerification("{id:12345}", "{id:12345}", STRICT);
     }
-    
+
     @Test
     public void testAssertNotEqualsStringJSONObjectBoolean() throws JSONException {
         JSONObject actual = new JSONObject();
@@ -574,7 +575,7 @@ public class JSONAssertTest {
         performAssertNotEqualsTestForMessageVerification("{id:12345}", actual, false);
         performAssertNotEqualsTestForMessageVerification("[1,2,3]", "[1,2,3]", true);
     }
-    
+
     @Test
     public void testAssertNotEqualsStringJSONObjectJSONCompare() throws JSONException {
         JSONObject actual = new JSONObject();
@@ -583,7 +584,7 @@ public class JSONAssertTest {
         performAssertNotEqualsTestForMessageVerification("{id:12345}", actual, LENIENT);
         performAssertNotEqualsTestForMessageVerification("[1,2,3]", "[1,2,3]", STRICT);
     }
-    
+
     @Test
     public void testAssertNtEqualsJSONObject2JSONCompare() throws JSONException {
         JSONObject expected = new JSONObject();
@@ -592,18 +593,18 @@ public class JSONAssertTest {
         actual.put("name", "Joe");
         actual.put("id", Integer.valueOf(123));
         JSONAssert.assertNotEquals("Message", expected, actual, LENIENT);
-        
+
         actual.remove("id");
         actual.put("id", Integer.valueOf(12345));
         performAssertNotEqualsTestForMessageVerification(expected, actual, LENIENT);
-        
+
         expected = new JSONObject();
         actual = new JSONObject();
         expected.put("id", Integer.valueOf(12345));
         actual.put("id", Double.valueOf(12345));
         performAssertNotEqualsTestForMessageVerification(expected, actual, STRICT);
     }
-    
+
     @Test
     public void testAssertNotEqualsJSONObject2Boolean() throws JSONException {
         JSONObject expected = new JSONObject();
@@ -612,35 +613,40 @@ public class JSONAssertTest {
         actual.put("name", "Joe");
         actual.put("id", Integer.valueOf(123));
         JSONAssert.assertNotEquals("Message", expected, actual, false);
-        
+
         actual.remove("id");
         actual.put("id", Integer.valueOf(12345));
         performAssertNotEqualsTestForMessageVerification(expected, actual, false);
-        
+
         expected = new JSONObject();
         actual = new JSONObject();
         expected.put("id", Integer.valueOf(12345));
         actual.put("id", Double.valueOf(12345));
         performAssertNotEqualsTestForMessageVerification(expected, actual, true);
     }
-    
+
+    @org.junit.Ignore // Invalid test for org.json library (at least as of 20201115)
     @Test
     public void testAssertNotEqualsString2JsonComparator() throws IllegalArgumentException, JSONException {
-        JSONAssert.assertNotEquals("Message", "{\"entry\":{\"id\":x}}", "{\"entry\":{\"id\":1, \"id\":hh}}", 
+        JSONObject j = new JSONObject("{\"entry\":{\"id\":x}}");
+        JSONObject k = new JSONObject("{\"entry\":{\"id\":1, \"id\":hh}}");
+        JSONAssert.assertNotEquals("Message", j.toString(),k.toString(),
             new CustomComparator(
-                JSONCompareMode.STRICT, 
-                new Customization("entry.id", 
+                JSONCompareMode.STRICT,
+                new Customization("entry.id",
                 new RegularExpressionValueMatcher<Object>("\\d"))
          ));
-        
-        performAssertNotEqualsTestForMessageVerification("{\"entry\":{\"id\":x}}", "{\"entry\":{\"id\":1, \"id\":2}}", 
-            new CustomComparator(
-                JSONCompareMode.STRICT, 
-                new Customization("entry.id", 
+
+        performAssertNotEqualsTestForMessageVerification(
+            new JSONObject("{\"entry\":{\"id\":x}}").toString()
+            , new JSONObject("{\"entry\":{\"id\":1, \"id\":2}}").toString()
+            ,new CustomComparator(
+                JSONCompareMode.STRICT,
+                new Customization("entry.id",
                 new RegularExpressionValueMatcher<Object>("\\d"))
         ));
     }
-    
+
     private void testPass(String expected, String actual, JSONCompareMode compareMode)
             throws JSONException
     {
@@ -656,12 +662,12 @@ public class JSONAssertTest {
         JSONCompareResult result = JSONCompare.compareJSON(expected, actual, compareMode);
         Assert.assertTrue(message, result.failed());
     }
-    
+
     private void performAssertEqualsTestForMessageVerification(
-        Object expected, 
-        Object actual, 
+        Object expected,
+        Object actual,
         Object strictMode) throws JSONException {
-        
+
         String message = "Message";
         String testShouldFailMessage = "The test should fail so that the message in AssertionError could be verified.";
         String strictModeMessage = "strictMode must be an instance of JSONCompareMode or Boolean";
@@ -749,13 +755,13 @@ public class JSONAssertTest {
             fail("No overloaded method found to call");
         }
     }
-    
+
     private void performAssertNotEqualsTestForMessageVerification(
-        Object expected, 
-        Object actual, 
-        Object strictMode) 
+        Object expected,
+        Object actual,
+        Object strictMode)
         throws JSONException {
-        
+
         String message = "Message";
         String testShouldFailMessage = "The test should fail so that the message in AssertionError could be verified.";
         String strictModeMessage = "strictMode must be an instance of JSONCompareMode or Boolean";
@@ -851,7 +857,7 @@ public class JSONAssertTest {
             throw ae;
         }
     }
-    
+
     private void verifyErrorMessage(String message, AssertionError ae) {
         assertTrue(ae.getMessage().contains(message));
         assertTrue(ae.getMessage().startsWith(message));
