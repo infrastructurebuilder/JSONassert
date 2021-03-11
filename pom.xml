@@ -13,7 +13,7 @@
     <groupId>org.skyscreamer</groupId>
 -->
     <artifactId>jsonassert</artifactId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>JSONassert</name>
@@ -56,7 +56,7 @@
         </developer>
     </developers>
     <properties>
-        <json.version>20201115</json.version>
+        <json.version>20210307</json.version>
         <junit.version>4.13.2</junit.version>
         <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
